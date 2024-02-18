@@ -2,29 +2,41 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { LoyaltyProgram } from './loyalty-program.entity';
+import { Member } from './member.entity';
 
-@Entity('tiers')
-export class Tier {
+@Entity('transactions')
+export class Transaction {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @ApiProperty()
-  @Column()
-  name: string;
+  @Column({ type: 'varchar' })
+  code: string;
+
+  @ManyToOne(() => Member)
+  @JoinColumn()
+  member: Member;
+
+  @ApiProperty()
+  @Column({ type: 'varchar' })
+  member_id: string;
 
   @ApiProperty()
   @Column({ type: 'int', width: 11, default: 0 })
-  minimum_point: number;
+  total_amount_primary: number;
 
   @ApiProperty()
   @Column({ type: 'int', width: 11, default: 0 })
-  maximum_point: number;
+  total_amount: number;
+
+  @ApiProperty()
+  @Column({ type: 'int', width: 11, default: 0 })
+  redeemed_point: number;
 
   @ApiProperty()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -33,17 +45,4 @@ export class Tier {
   @ApiProperty()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
-
-  @ManyToMany(() => LoyaltyProgram, (loyaltyProgram) => loyaltyProgram.tiers, {
-    cascade: true,
-  })
-  @JoinTable({
-    joinColumn: {
-      name: 'tier_id',
-    },
-    inverseJoinColumn: {
-      name: 'loyalty_program_id',
-    },
-  })
-  loyalty_programs: LoyaltyProgram[];
 }

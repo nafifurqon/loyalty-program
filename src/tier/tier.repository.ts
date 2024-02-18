@@ -5,8 +5,6 @@ import { FindAllQueryDto } from './dto/tier.dto';
 
 @Injectable()
 export class TierModel {
-  // private dataSource: DataSource;
-
   constructor(private readonly dataSource: DataSource) {}
 
   async findAll(query: FindAllQueryDto): Promise<Tier[]> {

@@ -8,6 +8,7 @@ import { typeOrmAsyncConfig } from '../db/config/typeorm.config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TierModule } from './tier/tier.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TierModule } from './tier/tier.module';
     UserModule,
     AuthModule,
     TierModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
