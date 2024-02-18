@@ -16,6 +16,14 @@ export class User {
   @Column()
   password: string;
 
+  @ApiProperty()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
+
+  @ApiProperty()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updated_at: Date;
+
   @BeforeInsert()
   async setPassword(password: string) {
     const salt = await bcrypt.genSalt();

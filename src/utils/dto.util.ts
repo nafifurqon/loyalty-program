@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsInt, IsOptional, Min } from 'class-validator';
 
 export class BadRequestResponseDto {
   @ApiProperty({
@@ -11,4 +13,42 @@ export class BadRequestResponseDto {
 
   @ApiProperty({ example: 400 })
   statusCode: number;
+}
+
+export class PageLimitOffsetRequestDto {
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  public page?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  public limit?: number;
+
+  @Transform(({ obj }) => {
+    return (obj.page - 1) * obj.limit;
+  })
+  public offset?: number;
+
+  protected setPage?() {
+    if (!this.page) this.page = 1;
+    return this.page;
+  }
+
+  protected setLimit?() {
+    if (!this.limit) this.limit = 10;
+    return this.limit;
+  }
+
+  protected setOffset?() {
+    if (!this.offset) this.offset = (this.page - 1) * this.limit;
+    return this.offset;
+  }
+
+  constructor() {
+    this.setPage();
+    this.setLimit();
+    this.setOffset();
+  }
 }
