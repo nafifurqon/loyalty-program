@@ -10,7 +10,6 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { Tier } from '../../entities/tier.entity';
 import { PageLimitOffsetRequestDto } from '../../utils/dto.util';
 import { Transform } from 'class-transformer';
 
@@ -38,7 +37,6 @@ export class FindAllQueryDto extends PageLimitOffsetRequestDto {
   @ApiProperty({ example: 1, required: false })
   @ValidateIf((query: FindAllQueryDto) => query.display !== 'all')
   @Transform(({ value }) => {
-    console.log('value', value);
     return Number(value);
   })
   @IsOptional()
@@ -49,7 +47,6 @@ export class FindAllQueryDto extends PageLimitOffsetRequestDto {
   @ApiProperty({ example: 1, required: false })
   @ValidateIf((query: FindAllQueryDto) => query.display !== 'all')
   @Transform(({ value }) => {
-    console.log('value', value);
     return Number(value);
   })
   @IsOptional()
@@ -64,9 +61,4 @@ export class FindAllQueryDto extends PageLimitOffsetRequestDto {
   )
   @IsIn(['all'])
   display?: string;
-}
-
-export class FindAllResponseDto {
-  public totalData: number;
-  public data: Tier[];
 }

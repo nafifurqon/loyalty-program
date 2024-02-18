@@ -21,6 +21,8 @@ export const ResponseMessage = {
   CREATE_FAILED: 'failed to create data',
   UPDATE_OK: 'data has been updated',
   UPDATE_FAILED: 'failed to update data',
+  DELETE_OK: 'data has been created',
+  DELETE_FAILED: 'failed to create data',
   ASYNC_OK: 'data is being processed',
   EMPTY_DATA: 'data is empty',
   NOT_FOUND: 'not found',

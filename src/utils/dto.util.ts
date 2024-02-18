@@ -16,12 +16,20 @@ export class BadRequestResponseDto {
 }
 
 export class PageLimitOffsetRequestDto {
+  @ApiProperty({ example: 1, required: false })
   @IsOptional()
+  @Transform(({ value }) => {
+    return value ? Number(value) : 1;
+  })
   @IsInt()
   @Min(1)
   public page?: number;
 
+  @ApiProperty({ example: 1, required: false })
   @IsOptional()
+  @Transform(({ value }) => {
+    return value ? Number(value) : 1;
+  })
   @IsInt()
   @Min(1)
   public limit?: number;
@@ -51,4 +59,9 @@ export class PageLimitOffsetRequestDto {
     this.setLimit();
     this.setOffset();
   }
+}
+
+export class FindAllResponseDto<T> {
+  public totalData: number;
+  public data: T[];
 }
