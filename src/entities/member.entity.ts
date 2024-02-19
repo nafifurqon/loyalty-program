@@ -4,10 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Status } from '../utils/enum.util';
 import { Tier } from './tier.entity';
+import { PointHistory } from './point-history.entity';
 
 @Entity('members')
 export class Member {
@@ -60,6 +62,9 @@ export class Member {
   @ApiProperty()
   @Column({ type: 'varchar' })
   tier_id: string;
+
+  @OneToMany(() => PointHistory, (pointHistory) => pointHistory.member)
+  point_histories: PointHistory[];
 
   @ApiProperty()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

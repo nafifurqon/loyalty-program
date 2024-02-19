@@ -197,34 +197,38 @@ export class TransactionService {
           runner,
         );
 
-        const existingBalancePoint = Number(member.remained_point);
-        const updatedBalancePoint =
-          existingBalancePoint + earnedPoint - redeemedPoint;
-        await this.pointHistoryRepository.create(
-          {
-            existing_point: existingBalancePoint,
-            earned_point: earnedPoint,
-            balance_point: updatedBalancePoint,
-            member_id: payload.member_id,
-            redeemed_point: redeemedPoint,
-            transaction_id: transactionId,
-            loyalty_program_id: loyaltyProgram ? loyaltyProgram.id : undefined,
-          },
-          runner,
-        );
+        if (loyaltyProgram) {
+          const existingBalancePoint = Number(member.remained_point);
+          const updatedBalancePoint =
+            existingBalancePoint + earnedPoint - redeemedPoint;
+          await this.pointHistoryRepository.create(
+            {
+              existing_point: existingBalancePoint,
+              earned_point: earnedPoint,
+              balance_point: updatedBalancePoint,
+              member_id: payload.member_id,
+              redeemed_point: redeemedPoint,
+              transaction_id: transactionId,
+              loyalty_program_id: loyaltyProgram
+                ? loyaltyProgram.id
+                : undefined,
+            },
+            runner,
+          );
 
-        const newTierId = await this._generateNewMemberTier(
-          updatedBalancePoint,
-          runner,
-        );
-        await this.memberRepository.update(
-          {
-            balance_point: updatedBalancePoint,
-            tier_id: newTierId,
-          },
-          payload.member_id,
-          runner,
-        );
+          const newTierId = await this._generateNewMemberTier(
+            updatedBalancePoint,
+            runner,
+          );
+          await this.memberRepository.update(
+            {
+              balance_point: updatedBalancePoint,
+              tier_id: newTierId,
+            },
+            payload.member_id,
+            runner,
+          );
+        }
 
         return true;
       });
