@@ -26,10 +26,22 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Preparation
+
+- Create `.env` file
+- Copy value from `.env.example` to `.env`
+- Fill the variable base on your own server/computer
+
 ## Installation
 
 ```bash
 $ npm install
+```
+
+## Migration
+
+```bash
+$ npm run migration:run
 ```
 
 ## Running the app
