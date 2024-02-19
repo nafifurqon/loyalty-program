@@ -31,8 +31,8 @@
 - Create `.env` file
 - Copy value from `.env.example` to `.env`
 - Fill the variable base on your own server/computer
-- Following migration step
-- Following instalation step
+- Follow migration step
+- Follow instalation step
 - Then running the app
 
 ## Migration
