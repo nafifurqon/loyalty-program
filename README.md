@@ -31,17 +31,20 @@
 - Create `.env` file
 - Copy value from `.env.example` to `.env`
 - Fill the variable base on your own server/computer
-
-## Installation
-
-```bash
-$ npm install
-```
+- Following migration step
+- Following instalation step
+- Then running the app
 
 ## Migration
 
 ```bash
 $ npm run migration:run
+```
+
+## Installation
+
+```bash
+$ npm install
 ```
 
 ## Running the app
