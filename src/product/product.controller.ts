@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -13,6 +14,7 @@ import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Product } from '../entities/product.entity';
@@ -62,5 +64,14 @@ export class ProductController {
   ): Promise<Response<Product>> {
     const result = await this.productService.update(body, id);
     return new Response(result, ResponseMessage.UPDATE_OK);
+  }
+
+  @ApiOkResponse({ type: Response<boolean> })
+  @ApiBearerAuth('access_token')
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  async delete(@Param('id') id: string): Promise<Response<boolean>> {
+    const result = await this.productService.delete(id);
+    return new Response(result, ResponseMessage.DELETE_OK);
   }
 }

@@ -52,7 +52,9 @@ export class Member {
   status: number;
 
   @ManyToOne(() => Tier)
-  @JoinColumn()
+  @JoinColumn({
+    name: 'tier_id',
+  })
   tier: Tier;
 
   @ApiProperty()

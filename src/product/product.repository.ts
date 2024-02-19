@@ -82,4 +82,19 @@ export class ProductRepository {
       return Promise.reject(error);
     }
   }
+
+  async deleteById(id: string): Promise<boolean> {
+    try {
+      await this.dataSource.manager
+        .createQueryBuilder()
+        .delete()
+        .from(Product)
+        .where('id = :id', { id })
+        .execute();
+
+      return true;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
 }

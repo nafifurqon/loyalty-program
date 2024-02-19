@@ -17,7 +17,7 @@ export class PointHistory {
   id: string;
 
   @ManyToOne(() => Member)
-  @JoinColumn()
+  @JoinColumn({ name: 'member_id' })
   member: Member;
 
   @ApiProperty()
@@ -25,7 +25,7 @@ export class PointHistory {
   member_id: string;
 
   @ManyToOne(() => Transaction)
-  @JoinColumn()
+  @JoinColumn({ name: 'transaction_id' })
   transaction: Transaction;
 
   @ApiProperty()
@@ -33,7 +33,7 @@ export class PointHistory {
   transaction_id: string;
 
   @ManyToOne(() => LoyaltyProgram)
-  @JoinColumn()
+  @JoinColumn({ name: 'loyalty_program_id' })
   loyalty_program: LoyaltyProgram;
 
   @ApiProperty()

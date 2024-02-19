@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { LoyaltyProgramType } from '../utils/enum.util';
-import { Tier } from './tier.entity';
 
 @Entity('loyalty_programs')
 export class LoyaltyProgram {
@@ -30,11 +29,11 @@ export class LoyaltyProgram {
   quantity: number;
 
   @ApiProperty()
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'bool', default: 0 })
   is_first_purchase: boolean;
 
   @ApiProperty()
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'bool', default: 0 })
   is_transactional_combine: boolean;
 
   @ApiProperty()
@@ -44,6 +43,10 @@ export class LoyaltyProgram {
   @ApiProperty()
   @Column({ type: 'int', width: 11, default: 0 })
   fixed_point_benefit: number;
+
+  @ApiProperty()
+  @Column({ type: 'int', width: 11, default: 0 })
+  maximum_point_benefit: number;
 
   @ApiProperty()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -60,7 +63,4 @@ export class LoyaltyProgram {
   @ApiProperty()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
-
-  @ManyToMany(() => Tier, (tier) => tier.loyalty_programs)
-  tiers: Tier[];
 }

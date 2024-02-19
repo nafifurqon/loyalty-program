@@ -50,4 +50,18 @@ export class ProductService {
       throw new InternalServerErrorException(error.message);
     }
   }
+
+  async delete(id: string): Promise<boolean> {
+    try {
+      const product = await this.productRepository.findOneById(id);
+
+      if (!product) throw new BadRequestException('Product is not found');
+
+      await this.productRepository.deleteById(id);
+
+      return true;
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
 }

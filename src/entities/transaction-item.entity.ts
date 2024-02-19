@@ -16,7 +16,7 @@ export class TransactionItem {
   id: string;
 
   @ManyToOne(() => Transaction)
-  @JoinColumn()
+  @JoinColumn({ name: 'transaction_id' })
   transaction: Transaction;
 
   @ApiProperty()
@@ -24,12 +24,12 @@ export class TransactionItem {
   transaction_id: string;
 
   @ManyToOne(() => Product)
-  @JoinColumn()
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 
   @ApiProperty()
   @Column({ type: 'varchar' })
-  Product_id: string;
+  product_id: string;
 
   @ApiProperty()
   @Column({ type: 'int', width: 11, default: 0 })

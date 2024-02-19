@@ -1,12 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { LoyaltyProgram } from './loyalty-program.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('tiers')
 export class Tier {
@@ -33,17 +26,4 @@ export class Tier {
   @ApiProperty()
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
-
-  @ManyToMany(() => LoyaltyProgram, (loyaltyProgram) => loyaltyProgram.tiers, {
-    cascade: true,
-  })
-  @JoinTable({
-    joinColumn: {
-      name: 'tier_id',
-    },
-    inverseJoinColumn: {
-      name: 'loyalty_program_id',
-    },
-  })
-  loyalty_programs: LoyaltyProgram[];
 }

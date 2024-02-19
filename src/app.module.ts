@@ -9,6 +9,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { TierModule } from './tier/tier.module';
 import { ProductModule } from './product/product.module';
+import { MemberModule } from './member/member.module';
+import { LoyaltyProgramModule } from './loyalty-program/loyalty-program.module';
+import { TransactionModule } from './transaction/transaction.module';
 
 @Module({
   imports: [
@@ -20,6 +23,9 @@ import { ProductModule } from './product/product.module';
     AuthModule,
     TierModule,
     ProductModule,
+    MemberModule,
+    LoyaltyProgramModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

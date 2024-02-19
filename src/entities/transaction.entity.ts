@@ -19,7 +19,7 @@ export class Transaction {
   code: string;
 
   @ManyToOne(() => Member)
-  @JoinColumn()
+  @JoinColumn({ name: 'member_id' })
   member: Member;
 
   @ApiProperty()
