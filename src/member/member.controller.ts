@@ -19,7 +19,11 @@ import { BadRequestResponseDto } from '../utils/dto.util';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ResponseMessage } from '../utils/const.util';
 import { Member } from '../entities/member.entity';
-import { CreateMemberRequestDto, FindAllQueryDto } from './dto/member.dto';
+import {
+  CreateMemberRequestDto,
+  FindAllQueryDto,
+  FindByIdResponseDto,
+} from './dto/member.dto';
 
 @ApiTags('member')
 @Controller('member')
@@ -50,12 +54,14 @@ export class MemberController {
     return response;
   }
 
-  @ApiCreatedResponse({ type: Response<Member> })
+  @ApiCreatedResponse({ type: Response<FindByIdResponseDto> })
   @ApiBadRequestResponse({ type: BadRequestResponseDto })
   @ApiBearerAuth('access_token')
   @Get(':id')
   @UseGuards(JwtAuthGuard)
-  async findById(@Param('id') id: string): Promise<Response<Member>> {
+  async findById(
+    @Param('id') id: string,
+  ): Promise<Response<FindByIdResponseDto>> {
     const result = await this.memberService.findById(id);
     const response = new Response(result, ResponseMessage.GET_OK);
     return response;

@@ -4,7 +4,11 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { MemberRepository } from './member.repository';
-import { CreateMemberRequestDto, FindAllQueryDto } from './dto/member.dto';
+import {
+  CreateMemberRequestDto,
+  FindAllQueryDto,
+  FindByIdResponseDto,
+} from './dto/member.dto';
 import { Member } from '../entities/member.entity';
 import { FindAllResponseDto } from '../utils/dto.util';
 import { TierModel } from '../tier/tier.repository';
@@ -44,7 +48,7 @@ export class MemberService {
     }
   }
 
-  async findById(id: string): Promise<Member> {
+  async findById(id: string): Promise<FindByIdResponseDto> {
     try {
       const member = await this.memberRepository.findById(id);
       member.tier = await this.tierRepository.findOne({ id: member.tier_id });

@@ -37,7 +37,7 @@ export class PointHistory {
   loyalty_program: LoyaltyProgram;
 
   @ApiProperty()
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   loyalty_program_id: string;
 
   @ApiProperty()

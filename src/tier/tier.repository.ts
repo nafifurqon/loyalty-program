@@ -59,8 +59,6 @@ export class TierModel {
         .from(Tier, 't')
         .where('1 = 1');
 
-      console.log('param', param);
-
       const { id, minimum_point } = param;
 
       if (id) {
@@ -97,6 +95,30 @@ export class TierModel {
         .from(Tier, 't')
         .where('t.id IN (:...ids)', { ids })
         .getRawMany();
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async findOneByPoint(point: number, runner?: Runner): Promise<any> {
+    try {
+      let em = this.dataSource.manager;
+      if (runner) {
+        em = runner.manager;
+      }
+
+      return await em
+        .createQueryBuilder()
+        .select([
+          't.id AS id',
+          't.name AS name',
+          't.minimum_point AS minimum_point',
+          't.maximum_point AS maximum_point',
+        ])
+        .from(Tier, 't')
+        .where('t.minimum_point <= :point', { point })
+        .andWhere('t.maximum_point >= :point', { point })
+        .getRawOne();
     } catch (error) {
       return Promise.reject(error);
     }

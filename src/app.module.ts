@@ -12,6 +12,7 @@ import { ProductModule } from './product/product.module';
 import { MemberModule } from './member/member.module';
 import { LoyaltyProgramModule } from './loyalty-program/loyalty-program.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { PointHistoryModule } from './point-history/point-history.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TransactionModule } from './transaction/transaction.module';
     MemberModule,
     LoyaltyProgramModule,
     TransactionModule,
+    PointHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

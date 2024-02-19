@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { CreateProductRequestDto, FindAllQueryDto } from './dto/product.dto';
 import { Product } from '../entities/product.entity';
+import { Runner } from '../utils/typeorm/run.in.transaction';
 
 @Injectable()
 export class ProductRepository {
@@ -93,6 +94,24 @@ export class ProductRepository {
         .execute();
 
       return true;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async findByIds(ids: string[], runner?: Runner): Promise<Product[]> {
+    try {
+      let em = this.dataSource.manager;
+      if (runner) {
+        em = runner.manager;
+      }
+
+      return await em
+        .createQueryBuilder()
+        .select(['p.id AS id', 'p.name AS name', 'p.price AS price'])
+        .from(Product, 'p')
+        .where('p.id IN (:...ids)', { ids })
+        .getRawMany();
     } catch (error) {
       return Promise.reject(error);
     }

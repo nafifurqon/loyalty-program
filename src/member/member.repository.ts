@@ -1,7 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Member } from '../entities/member.entity';
-import { CreateMemberRequestDto, FindAllQueryDto } from './dto/member.dto';
+import {
+  CreateMemberRequestDto,
+  FindAllQueryDto,
+  FindByIdResponseDto,
+  UpdatePayloadDto,
+} from './dto/member.dto';
+import { Runner } from '../utils/typeorm/run.in.transaction';
 
 @Injectable()
 export class MemberRepository {
@@ -57,9 +63,14 @@ export class MemberRepository {
     }
   }
 
-  async findById(id: string): Promise<Member> {
+  async findById(id: string, runner?: Runner): Promise<FindByIdResponseDto> {
     try {
-      return await this.dataSource.manager
+      let em = this.dataSource.manager;
+      if (runner) {
+        em = runner.manager;
+      }
+
+      return await em
         .createQueryBuilder()
         .select([
           'm.id AS id',
@@ -76,7 +87,31 @@ export class MemberRepository {
         ])
         .from(Member, 'm')
         .where('m.id = :id', { id })
-        .getRawOne();
+        .getRawOne<FindByIdResponseDto>();
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async update(
+    payload: UpdatePayloadDto,
+    id: string,
+    runner?: Runner,
+  ): Promise<boolean> {
+    try {
+      let em = this.dataSource.manager;
+      if (runner) {
+        em = runner.manager;
+      }
+
+      await em
+        .createQueryBuilder()
+        .update(Member)
+        .set(payload)
+        .where('id = :id', { id })
+        .execute();
+
+      return true;
     } catch (error) {
       return Promise.reject(error);
     }
